@@ -1,5 +1,8 @@
 # Bug Description
 
+## Tested Version
+- 8.0.29
+
 ## Schema
 ```
 create table table0 (pkId integer, pkAttr0 integer, pkAttr1 integer, pkAttr2 integer, coAttr0_0 integer, primary key(pkAttr0, pkAttr1, pkAttr2));
