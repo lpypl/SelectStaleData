@@ -1,0 +1,23 @@
+
+2022-07-28T13:53:17.255151Z	 1562 Connect	root@localhost on lpybugtest using SSL/TLS
+2022-07-28T13:53:17.255559Z	 1562 Query	select @@version_comment limit 1
+2022-07-28T13:53:17.255950Z	 1562 Query	create table if not exists table0 (pkId integer, pkAttr0 integer, pkAttr1 integer, pkAttr2 integer, coAttr0_0 integer, primary key(pkAttr0, pkAttr1, pkAttr2))
+2022-07-28T13:53:17.258200Z	 1562 Query	delete from table0
+2022-07-28T13:53:17.274501Z	 1562 Query	load data local infile 'table0.csv' into table table0 fields terminated by ',' enclosed by '"' ignore 1 lines (pkId,pkAttr0,pkAttr1,pkAttr2,coAttr0_0)
+2022-07-28T13:53:17.288708Z	 1562 Quit	
+2022-07-28T13:53:17.312548Z	 1563 Connect	root@localhost on lpybugtest using SSL/TLS
+2022-07-28T13:53:17.312974Z	 1564 Connect	root@localhost on lpybugtest using SSL/TLS
+2022-07-28T13:53:17.313506Z	 1563 Query	select @@version_comment limit 1
+2022-07-28T13:53:17.313724Z	 1564 Query	select @@version_comment limit 1
+2022-07-28T13:53:17.313923Z	 1563 Query	SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE
+2022-07-28T13:53:17.314236Z	 1564 Query	SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ
+2022-07-28T13:53:17.314597Z	 1563 Query	start transaction
+2022-07-28T13:53:17.314837Z	 1564 Query	start transaction
+2022-07-28T13:53:17.315363Z	 1563 Query	update `table0` set `coAttr0_0` = 40569 where ( `pkAttr0` = 412 ) and ( `pkAttr1` = 409 ) and ( `pkAttr2` = 258 )
+2022-07-28T13:53:17.315597Z	 1564 Query	select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 89665 )
+2022-07-28T13:53:17.316430Z	 1563 Query	commit
+2022-07-28T13:53:17.316506Z	 1564 Query	update `table0` set `coAttr0_0` = 40569 where ( `pkAttr0` = 412 ) and ( `pkAttr1` = 409 ) and ( `pkAttr2` = 258 )
+2022-07-28T13:53:17.321501Z	 1564 Query	select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 17702 )
+2022-07-28T13:53:17.322238Z	 1564 Query	commit
+2022-07-28T13:53:18.296573Z	 1563 Quit	
+2022-07-28T13:53:18.296589Z	 1564 Quit	
