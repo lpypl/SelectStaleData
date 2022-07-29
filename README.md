@@ -186,7 +186,7 @@ Bye
 - Isolation Level of Session-282 doesn't matter, RU/RC/RR/SR all is OK
 - According to our tests, Isolation Level of Session-281 must be RR
 
-### For Session-282, the extra select before the update for `Key<412,409,258>` seems necessary  
+### For Session-281, the extra select before the update for `Key<412,409,258>` seems necessary  
 ```
 select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 89665 )
 ```
