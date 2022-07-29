@@ -16,16 +16,16 @@ insert into t(k, v) values (1, 1);
 ## Operations (From General Log)
 | Session | Operation                                               |
 | ------- | ------------------------------------------------------- |
-| 282     | SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ |
-| 281     | SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ |
-| 282     | start transaction                                       |
-| 282     | update t set v = 2 where k = 1                          |
-| 282     | commit                                                  |
-| 281     | start transaction                                       |
-| 281     | select k, v from t where v = 88                         |
-| 281     | update t set v = 2 where k = 1                          |
-| 281     | select k, v from t where k = 1                          |
-| 281     | commit                                                  |
+| 1001    | SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ |
+| 1002    | SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ |
+| 1001    | start transaction                                       |
+| 1001    | update t set v = 2 where k = 1                          |
+| 1001    | commit                                                  |
+| 1002    | start transaction                                       |
+| 1002    | select k, v from t where v = 88                         |
+| 1002    | update t set v = 2 where k = 1                          |
+| 1002    | select k, v from t where k = 1                          |
+| 1002    | commit                                                  |
 
 ## How to Repeat
 
