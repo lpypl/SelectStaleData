@@ -1,23 +1,23 @@
 
-2022-07-28T16:17:38.874205Z	 2367 Connect	root@localhost on bugtest using SSL/TLS
-2022-07-28T16:17:38.874707Z	 2367 Query	select @@version_comment limit 1
-2022-07-28T16:17:38.875130Z	 2367 Query	create table if not exists table0 (pkId integer, pkAttr0 integer, pkAttr1 integer, pkAttr2 integer, coAttr0_0 integer, primary key(pkAttr0, pkAttr1, pkAttr2))
-2022-07-28T16:17:38.878651Z	 2367 Query	delete from table0
-2022-07-28T16:17:38.883272Z	 2367 Query	load data local infile 'table0.csv' into table table0 fields terminated by ',' enclosed by '"' ignore 1 lines (pkId,pkAttr0,pkAttr1,pkAttr2,coAttr0_0)
-2022-07-28T16:17:38.887686Z	 2367 Quit	
-2022-07-28T16:17:38.910354Z	 2368 Connect	root@localhost on bugtest using SSL/TLS
-2022-07-28T16:17:38.910530Z	 2369 Connect	root@localhost on bugtest using SSL/TLS
-2022-07-28T16:17:38.910914Z	 2368 Query	select @@version_comment limit 1
-2022-07-28T16:17:38.910988Z	 2369 Query	select @@version_comment limit 1
-2022-07-28T16:17:38.911238Z	 2368 Query	SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ
-2022-07-28T16:17:38.911252Z	 2369 Query	SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE
-2022-07-28T16:17:38.911649Z	 2368 Query	start transaction
-2022-07-28T16:17:38.911676Z	 2369 Query	start transaction
-2022-07-28T16:17:38.912034Z	 2368 Query	select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 89665 )
-2022-07-28T16:17:38.912048Z	 2369 Query	update `table0` set `coAttr0_0` = 40569 where ( `pkAttr0` = 412 ) and ( `pkAttr1` = 409 ) and ( `pkAttr2` = 258 )
-2022-07-28T16:17:38.913392Z	 2368 Query	update `table0` set `coAttr0_0` = 40569 where ( `pkAttr0` = 412 ) and ( `pkAttr1` = 409 ) and ( `pkAttr2` = 258 )
-2022-07-28T16:17:38.913726Z	 2369 Query	commit
-2022-07-28T16:17:38.917819Z	 2368 Query	select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 17702 )
-2022-07-28T16:17:38.918411Z	 2368 Query	commit
-2022-07-28T16:17:39.911221Z	 2368 Quit	
-2022-07-28T16:17:39.911287Z	 2369 Quit	
+2022-07-29T07:31:25.424711Z	 2937 Connect	root@localhost on lpybugtest using SSL/TLS
+2022-07-29T07:31:25.425402Z	 2937 Query	select @@version_comment limit 1
+2022-07-29T07:31:25.425945Z	 2937 Query	create table if not exists t (k integer, v integer, primary key(k))
+2022-07-29T07:31:25.429211Z	 2937 Query	delete from t
+2022-07-29T07:31:25.433147Z	 2937 Query	insert into t(k, v) values(1,1)
+2022-07-29T07:31:25.437826Z	 2937 Quit	
+2022-07-29T07:31:25.456150Z	 2938 Connect	root@localhost on lpybugtest using SSL/TLS
+2022-07-29T07:31:25.456995Z	 2938 Query	select @@version_comment limit 1
+2022-07-29T07:31:25.457554Z	 2938 Query	SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE
+2022-07-29T07:31:25.457966Z	 2938 Query	start transaction
+2022-07-29T07:31:25.458410Z	 2938 Query	update t set v = 2 where k = 1
+2022-07-29T07:31:25.459274Z	 2939 Connect	root@localhost on lpybugtest using SSL/TLS
+2022-07-29T07:31:25.459297Z	 2938 Query	commit
+2022-07-29T07:31:25.460218Z	 2939 Query	select @@version_comment limit 1
+2022-07-29T07:31:25.461122Z	 2939 Query	SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ
+2022-07-29T07:31:25.461580Z	 2939 Query	start transaction
+2022-07-29T07:31:25.462047Z	 2939 Query	select k, v from t where v = 88
+2022-07-29T07:31:25.462746Z	 2939 Query	update t set v = 2 where k = 1
+2022-07-29T07:31:25.463719Z	 2939 Query	select k, v from t where k = 1
+2022-07-29T07:31:25.464218Z	 2939 Query	commit
+2022-07-29T07:31:26.462591Z	 2939 Quit	
+2022-07-29T07:31:26.462651Z	 2938 Quit	

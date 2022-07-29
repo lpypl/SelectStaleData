@@ -12,28 +12,28 @@ start transaction
 Query OK, 0 rows affected (0.00 sec)
 
 --------------
-select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 89665 )
+select k, v from t where v = 88
 --------------
 
 Empty set (0.00 sec)
 
 --------------
-update `table0` set `coAttr0_0` = 40569 where ( `pkAttr0` = 412 ) and ( `pkAttr1` = 409 ) and ( `pkAttr2` = 258 )
+update t set v = 2 where k = 1
 --------------
 
 Query OK, 0 rows affected (0.00 sec)
 Rows matched: 1  Changed: 0  Warnings: 0
 
 --------------
-select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 17702 )
+select k, v from t where k = 1
 --------------
 
-+---------+---------+---------+-----------+
-| pkAttr0 | pkAttr1 | pkAttr2 | coAttr0_0 |
-+---------+---------+---------+-----------+
-|     412 |     409 |     258 |     17702 |
-+---------+---------+---------+-----------+
-1 row in set (0.01 sec)
++---+------+
+| k | v    |
++---+------+
+| 1 |    1 |
++---+------+
+1 row in set (0.00 sec)
 
 --------------
 commit

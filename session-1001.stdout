@@ -12,7 +12,7 @@ start transaction
 Query OK, 0 rows affected (0.00 sec)
 
 --------------
-update `table0` set `coAttr0_0` = 40569 where ( `pkAttr0` = 412 ) and ( `pkAttr1` = 409 ) and ( `pkAttr2` = 258 )
+update t set v = 2 where k = 1
 --------------
 
 Query OK, 1 row affected (0.00 sec)

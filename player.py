@@ -6,7 +6,7 @@ import time
 
 HOST = "127.0.0.1"
 PORT = "3306"
-DATABASE = "bugtest"
+DATABASE = "lpybugtest"
 USERNAME = "root"
 PASSWORD = "root"
 REQUEST_INTERVAL = 0.001
@@ -14,7 +14,7 @@ REQUEST_INTERVAL = 0.001
 
 print(">>>>>>>>>>>>>>>     Loading Data     <<<<<<<<<<<<<<<")
 sql_load_data = rf"""
-mysql -h{HOST} -P{PORT} -u{USERNAME} -p{PASSWORD} --unbuffered --local-infile=1 {DATABASE} -vvv -e "create table if not exists table0 (pkId integer, pkAttr0 integer, pkAttr1 integer, pkAttr2 integer, coAttr0_0 integer, primary key(pkAttr0, pkAttr1, pkAttr2)); delete from table0; load data local infile 'table0.csv' into table table0 fields terminated by ',' enclosed by '\"' ignore 1 lines (pkId,pkAttr0,pkAttr1,pkAttr2,coAttr0_0);"
+mysql -h{HOST} -P{PORT} -u{USERNAME} -p{PASSWORD} --unbuffered --local-infile=1 {DATABASE} -vvv -e "create table if not exists t (k integer, v integer, primary key(k)); delete from t; insert into t(k, v) values(1,1);"
 """
 os.system(sql_load_data)
 

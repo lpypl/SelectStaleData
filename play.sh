@@ -1,1 +1,1 @@
-python3 transformer.py ; echo ''>session-281.stdout; while ! grep '|     412 |     409 |     258 |     17702 |' session-281.stdout; do python3 player.py; done
+python3 transformer.py ; echo ''>session-1002.stdout; while ! grep '| 1 |    1 |' session-1002.stdout; do python3 player.py; done

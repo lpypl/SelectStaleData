@@ -5,34 +5,28 @@
 
 ## Schema
 ```
-create table table0 (pkId integer, pkAttr0 integer, pkAttr1 integer, pkAttr2 integer, coAttr0_0 integer, primary key(pkAttr0, pkAttr1, pkAttr2));
-```
+create table if not exists t (k integer, v integer, primary key(k));
 
-Initial data: `table0.csv`  
+delete from t;
 
-```
-+---------+---------+---------+-----------+
-| pkAttr0 | pkAttr1 | pkAttr2 | coAttr0_0 |
-+---------+---------+---------+-----------+
-|     412 |     409 |     258 |     17702 |
-+---------+---------+---------+-----------+
+insert into t(k, v) values (1, 1);
 ```
 
 ## Operations (From General Log)
-| Session | Operation                                                                                                         |
-| ------- | ----------------------------------------------------------------------------------------------------------------- |
-| 282     | SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE                                                              |
-| 281     | SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ                                                           |
-| 282     | start transaction                                                                                                 |
-| 282     | update `table0` set `coAttr0_0` = 40569 where ( `pkAttr0` = 412 ) and ( `pkAttr1` = 409 ) and ( `pkAttr2` = 258 ) |
-| 282     | commit                                                                                                            |
-| 281     | start transaction                                                                                                 |
-| 281     | select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 89665 )                   |
-| 281     | update `table0` set `coAttr0_0` = 40569 where ( `pkAttr0` = 412 ) and ( `pkAttr1` = 409 ) and ( `pkAttr2` = 258 ) |
-| 281     | select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 17702 )                   |
-| 281     | commit                                                                                                            |
+| Session | Operation                                               |
+| ------- | ------------------------------------------------------- |
+| 282     | SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE    |
+| 281     | SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ |
+| 282     | start transaction                                       |
+| 282     | update t set v = 2 where k = 1                          |
+| 282     | commit                                                  |
+| 281     | start transaction                                       |
+| 281     | select k, v from t where v = 88                         |
+| 281     | update t set v = 2 where k = 1                          |
+| 281     | select k, v from t where k = 1                          |
+| 281     | commit                                                  |
 
-## How to Reproduce
+## How to Repeat
 
 - `transformer.py` translates `minimal-general.log` to `minimal-operations.json`
 - `player.py` create a mysql client process for each session
@@ -43,54 +37,55 @@ Initial data: `table0.csv`
 
 ### Description
 
-- In the beginning, `coAttr0_0` of `Key<412,409,258>` is `17702`.
+- In the beginning, `v` of `Key<1>` is `1`.
   ```
-  +---------+---------+---------+-----------+
-  | pkAttr0 | pkAttr1 | pkAttr2 | coAttr0_0 |
-  +---------+---------+---------+-----------+
-  |     412 |     409 |     258 |     17702 |
-  +---------+---------+---------+-----------+
+  +---+------+
+  | k | v    |
+  +---+------+
+  | 1 |    1 |
+  +---+------+
   ```
-- Then Session-282 updates `coAttr0_0` of `Key<412,409,258>` to `40569`.  
+- Then Session-1001 updates `v` of `Key<1>` to `2`.  
   Note that it successfully changes that value, because the query result is: 
   ```
   Query OK, 1 row affected (0.00 sec)
   Rows matched: 1  Changed: 1  Warnings: 0
   ```
-- When Session-281 trys updating `coAttr0_0` of `Key<412,409,258>` to `40569`.  
-  It fails to change that value because the vlaue is already `40569`:
+- When Session-1002 trys updating `v` of `Key<1>` to `2`.  
+  It fails to change that value because the vlaue is already `2`:
   ```
   Query OK, 0 rows affected (0.00 sec)
   Rows matched: 1  Changed: 0  Warnings: 0
   ```
 - Thers is no wrong execution results so far.
-- Next, Session-282 executes
+- Next, Session-1002 executes
   ```
-  select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 17702 )
+  select k, v from t where k = 1
   ```
-  As we known, latest `coAttr0_0` of `Key<412,409,258>` is `40569`  
+  As we known, latest `v` of `Key<1>` is `2`  
   However, the query result is:
   ```
-  +---------+---------+---------+-----------+
-  | pkAttr0 | pkAttr1 | pkAttr2 | coAttr0_0 |
-  +---------+---------+---------+-----------+
-  |     412 |     409 |     258 |     17702 |
-  +---------+---------+---------+-----------+
+  +---+------+
+  | k | v    |
+  +---+------+
+  | 1 |    1 |
+  +---+------+
+  1 row in set (0.01 sec)
   ```
-  The database returns a stale version of data for `Key<412,409,258>`
+  The database returns a stale version of data for `Key<1>`
 
 ### Details
 
 #### Initial Data
 ```
-+---------+---------+---------+-----------+
-| pkAttr0 | pkAttr1 | pkAttr2 | coAttr0_0 |
-+---------+---------+---------+-----------+
-|     412 |     409 |     258 |     17702 |
-+---------+---------+---------+-----------+
++---+------+
+| k | v    |
++---+------+
+| 1 |    1 |
++---+------+
 ```
 
-#### Execution Result of Session-282
+#### Execution Result of Session-1001
 ```
 --------------
 SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE
@@ -105,7 +100,7 @@ start transaction
 Query OK, 0 rows affected (0.00 sec)
 
 --------------
-update `table0` set `coAttr0_0` = 40569 where ( `pkAttr0` = 412 ) and ( `pkAttr1` = 409 ) and ( `pkAttr2` = 258 )
+update t set v = 2 where k = 1
 --------------
 
 Query OK, 1 row affected (0.00 sec)
@@ -121,7 +116,7 @@ Bye
 
 ```
 
-#### Execution Result of Session-281
+#### Execution Result of Session-1002
 
 
 ```
@@ -138,27 +133,27 @@ start transaction
 Query OK, 0 rows affected (0.00 sec)
 
 --------------
-select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 89665 )
+select k, v from t where v = 88
 --------------
 
 Empty set (0.00 sec)
 
 --------------
-update `table0` set `coAttr0_0` = 40569 where ( `pkAttr0` = 412 ) and ( `pkAttr1` = 409 ) and ( `pkAttr2` = 258 )
+update t set v = 2 where k = 1
 --------------
 
 Query OK, 0 rows affected (0.00 sec)
 Rows matched: 1  Changed: 0  Warnings: 0
 
 --------------
-select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 17702 )
+select k, v from t where k = 1
 --------------
 
-+---------+---------+---------+-----------+
-| pkAttr0 | pkAttr1 | pkAttr2 | coAttr0_0 |
-+---------+---------+---------+-----------+
-|     412 |     409 |     258 |     17702 |
-+---------+---------+---------+-----------+
++---+------+
+| k | v    |
++---+------+
+| 1 |    1 |
++---+------+
 1 row in set (0.01 sec)
 
 --------------
@@ -172,21 +167,21 @@ Bye
 ```
    
 
-## Key Points to Reproduce this Bug
+## Key Points to repeat this Bug
 
 ### Request Rate is Critical  
 - Sleep for 0~0.003 seconds between two operations is OK for reproducing this bug
 - If the sleep is longer, it tends to produce correct execution results
   
 ### Update to the same value
-- Two sessions update `coAttr0_0` to the same value
-- And the update of Session-281 must match but not change  
+- Two sessions update `v` to the same value
+- And the update of Session-1002 must match but not change  
   
 ### Isolation Level  
-- Isolation Level of Session-282 doesn't matter, RU/RC/RR/SR all is OK
-- According to our tests, Isolation Level of Session-281 must be RR
+- Isolation Level of Session-1001 doesn't matter, RU/RC/RR/SR all is OK
+- According to our tests, Isolation Level of Session-1002 must be RR
 
-### For Session-281, the extra select before the update for `Key<412,409,258>` seems necessary  
+### For Session-1002, the extra select before the update for `Key<1>` seems unnecessary. But it greatly improves the chance of repeat  
 ```
-select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 89665 )
+select k, v from t where v = 88
 ```

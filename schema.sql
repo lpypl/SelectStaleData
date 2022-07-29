@@ -1,1 +1,5 @@
-create table table0 (pkId integer, pkAttr0 integer, pkAttr1 integer, pkAttr2 integer, coAttr0_0 integer, primary key(pkAttr0, pkAttr1, pkAttr2));
+create table if not exists t (k integer, v integer, primary key(k));
+
+delete from t;
+
+insert into t(k, v) values (1, 1);

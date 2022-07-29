@@ -1,10 +1,10 @@
-2022-07-26T06:39:11.589195Z	  282 Query	SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE
-2022-07-26T06:39:11.589195Z	  281 Query	SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ
-2022-07-26T06:39:11.806997Z	  282 Query	start transaction
-2022-07-26T06:39:11.808742Z	  282 Execute	update `table0` set `coAttr0_0` = 40569 where ( `pkAttr0` = 412 ) and ( `pkAttr1` = 409 ) and ( `pkAttr2` = 258 )
-2022-07-26T06:39:11.822271Z	  282 Query	commit
-2022-07-26T06:39:11.828506Z	  281 Query	start transaction
-2022-07-26T06:39:11.832806Z	  281 Execute	select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 89665 )
-2022-07-26T06:39:11.835277Z	  281 Execute	update `table0` set `coAttr0_0` = 40569 where ( `pkAttr0` = 412 ) and ( `pkAttr1` = 409 ) and ( `pkAttr2` = 258 )
-2022-07-26T06:39:11.836941Z	  281 Execute	select `pkAttr0`, `pkAttr1`, `pkAttr2`, `coAttr0_0` from `table0` where ( `coAttr0_0` = 17702 )
-2022-07-26T06:39:11.852547Z	  281 Query	commit
+2022-07-26T06:39:11.589195Z	  1001 Query	SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE
+2022-07-26T06:39:11.589195Z	  1002 Query	SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ
+2022-07-26T06:39:11.806997Z	  1001 Query	start transaction
+2022-07-26T06:39:11.808742Z	  1001 Execute	update t set v = 2 where k = 1
+2022-07-26T06:39:11.822271Z	  1001 Query	commit
+2022-07-26T06:39:11.828506Z	  1002 Query	start transaction
+2022-07-26T06:39:11.832806Z	  1002 Execute	select k, v from t where v = 88
+2022-07-26T06:39:11.835277Z	  1002 Execute	update t set v = 2 where k = 1
+2022-07-26T06:39:11.836941Z	  1002 Execute	select k, v from t where k = 1
+2022-07-26T06:39:11.852547Z	  1002 Query	commit
