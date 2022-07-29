@@ -5,7 +5,7 @@ import time
 
 
 HOST = "127.0.0.1"
-PORT = "3306"
+PORT = "4000"
 DATABASE = "lpybugtest"
 USERNAME = "root"
 PASSWORD = "root"

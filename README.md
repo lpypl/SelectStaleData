@@ -1,7 +1,8 @@
 # Bug Description
 
 ## Tested Version
-- 8.0.29
+- 5.7.25-TiDB-v5.0.0
+- 5.7.25-TiDB-v6.1.0
 
 ## Schema
 ```
@@ -15,7 +16,7 @@ insert into t(k, v) values (1, 1);
 ## Operations (From General Log)
 | Session | Operation                                               |
 | ------- | ------------------------------------------------------- |
-| 282     | SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE    |
+| 282     | SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ |
 | 281     | SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ |
 | 282     | start transaction                                       |
 | 282     | update t set v = 2 where k = 1                          |
@@ -88,7 +89,7 @@ insert into t(k, v) values (1, 1);
 #### Execution Result of Session-1001
 ```
 --------------
-SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ
 --------------
 
 Query OK, 0 rows affected (0.00 sec)
@@ -142,7 +143,7 @@ Empty set (0.00 sec)
 update t set v = 2 where k = 1
 --------------
 
-Query OK, 0 rows affected (0.00 sec)
+Query OK, 0 rows affected (0.01 sec)
 Rows matched: 1  Changed: 0  Warnings: 0
 
 --------------
@@ -154,7 +155,7 @@ select k, v from t where k = 1
 +---+------+
 | 1 |    1 |
 +---+------+
-1 row in set (0.01 sec)
+1 row in set (0.00 sec)
 
 --------------
 commit
@@ -178,7 +179,7 @@ Bye
 - And the update of Session-1002 must match but not change  
   
 ### Isolation Level  
-- Isolation Level of Session-1001 doesn't matter, RU/RC/RR/SR all is OK
+- Isolation Level of Session-1001 doesn't matter, RC/RR both are OK
 - According to our tests, Isolation Level of Session-1002 must be RR
 
 ### For Session-1002, the extra select before the update for `Key<1>` seems unnecessary. But it greatly improves the chance of repeat  

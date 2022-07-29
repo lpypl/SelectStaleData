@@ -1,6 +1,5 @@
-mysql: [Warning] Using a password on the command line interface can be insecure.
 --------------
-SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ
 --------------
 
 Query OK, 0 rows affected (0.00 sec)

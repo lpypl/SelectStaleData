@@ -1,1 +1,50 @@
-[{"connId": "1001", "sql": "SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE"}, {"connId": "1002", "sql": "SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ"}, {"connId": "1001", "transId": 1, "sql": "start transaction"}, {"connId": "1001", "transId": 1, "sql": "update t set v = 2 where k = 1"}, {"connId": "1001", "transId": 1, "sql": "commit"}, {"connId": "1002", "transId": 1, "sql": "start transaction"}, {"connId": "1002", "transId": 1, "sql": "select k, v from t where v = 88"}, {"connId": "1002", "transId": 1, "sql": "update t set v = 2 where k = 1"}, {"connId": "1002", "transId": 1, "sql": "select k, v from t where k = 1"}, {"connId": "1002", "transId": 1, "sql": "commit"}]
+[
+    {
+        "connId": "1001",
+        "sql": "SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ"
+    },
+    {
+        "connId": "1002",
+        "sql": "SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ"
+    },
+    {
+        "connId": "1001",
+        "transId": 1,
+        "sql": "start transaction"
+    },
+    {
+        "connId": "1001",
+        "transId": 1,
+        "sql": "update t set v = 2 where k = 1"
+    },
+    {
+        "connId": "1001",
+        "transId": 1,
+        "sql": "commit"
+    },
+    {
+        "connId": "1002",
+        "transId": 1,
+        "sql": "start transaction"
+    },
+    {
+        "connId": "1002",
+        "transId": 1,
+        "sql": "select k, v from t where v = 88"
+    },
+    {
+        "connId": "1002",
+        "transId": 1,
+        "sql": "update t set v = 2 where k = 1"
+    },
+    {
+        "connId": "1002",
+        "transId": 1,
+        "sql": "select k, v from t where k = 1"
+    },
+    {
+        "connId": "1002",
+        "transId": 1,
+        "sql": "commit"
+    }
+]
