@@ -2,6 +2,7 @@
 
 ## Tested Version
 - 8.0.29
+- 8.0.30
 
 ## Schema
 ```
@@ -178,7 +179,7 @@ Bye
 - And the update of Session-1002 must match but not change  
   
 ### Isolation Level  
-- Isolation Level of Session-1001 doesn't matter, RU/RC/RR/SR all is OK
+- Isolation Level of Session-1001 doesn't matter, RU/RC/RR/SR all are OK
 - According to our tests, Isolation Level of Session-1002 must be RR
 
 ### For Session-1002, the extra select before the update for `Key<1>` seems unnecessary. But it greatly improves the chance of repeat  
